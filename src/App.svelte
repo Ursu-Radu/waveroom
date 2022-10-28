@@ -1,9 +1,9 @@
 <script lang="ts">
-    import AuthScreen from "./AuthScreen.svelte";
-    import AuthBackground from "./AuthBackground.svelte";
+    import AuthScreen from "./auth_ui/AuthScreen.svelte";
+    import AuthBackground from "./auth_ui/AuthBackground.svelte";
     import { currentUser } from "./firebase/auth";
-    import MainWindow from "./MainWindow.svelte";
-    import Background from "./Background.svelte";
+    import MainWindow from "./main_app/View.svelte";
+    import Background from "./main_app/Background.svelte";
 </script>
 
 <div class="everything">
@@ -13,7 +13,7 @@
             <AuthScreen />
         {:else}
             <Background />
-            <MainWindow />
+            <MainWindow loggedInUser={$currentUser} />
         {/if}
     {/if}
 </div>

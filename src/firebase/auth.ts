@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 import { writable, type Writable } from "svelte/store";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { stopPlayer } from "../main_app/player";
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -44,8 +45,10 @@ onAuthStateChanged(auth, async user => {
             doc(firestore, `userData/${user.uid}`),
             snapshot => {
                 let data = snapshot.data();
-                currentUsername.set(data.username);
-                currentPhoto.set(data.photo);
+                if (data != null) {
+                    currentUsername.set(data.username);
+                    currentPhoto.set(data.photo);
+                }
             }
         );
     } else {
@@ -55,5 +58,6 @@ onAuthStateChanged(auth, async user => {
         }
         currentUsername.set("");
         currentPhoto.set("assets/default_user.png");
+        stopPlayer();
     }
 });
